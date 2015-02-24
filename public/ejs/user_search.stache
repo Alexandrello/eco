@@ -1,0 +1,4 @@
+<div class="user" data-value="<%= user_id %>">
+	<img src="<%= user_avatar %>" alt="<%= user_name %>">
+	<span><%= user_name %></span>
+</div>

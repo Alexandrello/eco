@@ -1,0 +1,19 @@
+<div class="chatbox" data-value="{{room.id}}">
+    <div class="chatbox-heading">
+		<span>
+			<img src="/img/group-chat.png"></i>
+            &nbsp;{{room.name}}
+		</span>
+        <button class="close">×</button>
+    </div>
+    <div class="chatbox-body chat">
+        <div class="message_block">
+            <div class="chat-messages-list">
+            </div>
+        </div>
+    </div>
+    <div class="chatbox-footer">
+        <textarea class="chatInput"></textarea>
+        <input type="file" class="uploader" style="display: none;" name="file">
+    </div>
+</div>

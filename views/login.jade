@@ -1,0 +1,28 @@
+extends layout
+block content
+    form.form-signin(method="post")
+        img(src="/img/green.png" style="margin-bottom: 20px;")
+        div.alert.alert-error.fade.in.hide
+        input.input-block-level(name="email" type="text" placeholder="Email")
+        input.input-block-level(name="password" type="password" placeholder="Пароль")
+        button.btn.btn-large.btn-primary(type="submit") Вход
+        a.btn.btn-large.pull-right(href="/registration/") Регистрация
+    script.
+        $(function () {
+            $('.form-signin').submit(function () {
+                var data = {};
+
+                $(this).find('input').each(function (i, input) {
+                    data[$(input).attr('name')] = $(input).val();
+                });
+                $.post('', data, function (res) {
+                    if (res.success){
+                        document.cookie = "session_id=" + res.sessionId + '; path=/;';
+                        location.href = '/';
+                    } else {
+
+                    }
+                });
+                return false;
+            });
+        });

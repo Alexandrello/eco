@@ -1,0 +1,12 @@
+<div class="chat-message pull-right" data-value="{{id}}">
+	<div class="chat-message-avatar">
+		<img src="{{userAvatar}}" alt="{{userName}}" style="width: 36px; height: 36px;">
+	</div>
+	<div class="chat-message-body">
+		<div class="chat-message-body-header">
+            {{userName}}
+			<small>{{timestamp}}</small>
+		</div>
+		<div class="chat-message-body-content">{{text}}</div>
+	</div>
+</div>

@@ -1,0 +1,7 @@
+<div class="smile-window">
+	<% for(i in smiles){ %>
+	<div class="smile" data-value="<%=smiles[i]%>">
+		<img src="/gallery/smiles/<%=i%>">
+	</div>
+	<% } %>
+</div>
