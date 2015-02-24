@@ -1,9 +1,8 @@
 var mongoose = require('mongoose');
 
 var RoomSchema = mongoose.Schema({
-    id: Number,
     name: String,
-    users: [{type: Number, ref: 'User'}]
+    users: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
 }, {
     collection: 'rooms'
 });

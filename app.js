@@ -18,7 +18,7 @@ var Connection = require('./modules/connection');
 app.connections = [];
 
 io.on('connection', function (socket) {
-    new Connection(app, socket);
+    app.connections.push(new Connection(app, socket));
 });
 
 server.listen(3000);

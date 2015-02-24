@@ -1,4 +1,4 @@
-<div class="chat-message" data-value="{{id}}">
+<div class="chat-message" data-value="{{_id}}">
 	<div class="chat-message-avatar">
 		<img src="{{userAvatar}}" alt="{{userName}}" style="width: 36px; height: 36px;">
 	</div>

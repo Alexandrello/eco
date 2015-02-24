@@ -3,30 +3,34 @@ var SHA256 = require("crypto-js/sha256");
 
 var auth = {
     init: function (app) {
-        app.get('/login', function (req, res) {
+        app.get('/login/', function (req, res) {
             res.render('login', {title: 'GAD'});
+        });
+
+        app.get('/register/', function (req, res) {
+            res.render('register', {title: 'GAD'});
         });
 
         app.post("/login/", function (req, res) {
             var loginData = req.body;
-            if (loginData.email == undefined || loginData.email == '' ||
-                loginData.password == undefined || loginData.password == '') {
+            if (!loginData.email || !loginData.password) {
                 res.json({
-                    success: false
+                    success: false,
+                    error: 'Введите логин и пароль'
                 });
             } else {
                 loginData.password = SHA256(loginData.password);
-                User.find({
+                User.findOne({
                     email: loginData.email
-                }, function (err, users) {
-                    if (users.length) {
-                        var user = users.pop();
+                }, function (err, user) {
+                    if (user) {
                         if (user.password == loginData.password) {
                             user.sessionId = auth.generateSessionId();
-                            user.save();
-                            res.json({
-                                success: true,
-                                sessionId: user.sessionId
+                            user.save(function(){
+                                res.json({
+                                    success: true,
+                                    sessionId: user.sessionId
+                                });
                             });
                         } else {
                             res.json({
@@ -34,15 +38,38 @@ var auth = {
                             });
                         }
                     } else {
-                        User.count({}, function (count) {
-                            var user = new User(loginData);
-                            user.sessionId = auth.generateSessionId();
-                            user.avatar = '/img/150x150.png';
-                            user.id = count + 1;
+                        res.json({
+                            success: false,
+                            error: 'Пользователь не найден'
+                        });
+                    }
+                });
+            }
+        });
 
-                            console.log(user);
+        app.post("/register/", function (req, res) {
+            var loginData = req.body;
+            if (!loginData.email || !loginData.password || !loginData.name) {
+                res.json({
+                    success: false,
+                    error: 'Заполните все поля'
+                });
+            } else {
+                loginData.password = SHA256(loginData.password);
+                User.findOne({
+                    email: loginData.email
+                }, function (err, user) {
+                    if (user){
+                        res.json({
+                            success: false,
+                            error: 'Пользователь с таким email уже зарегистрирован'
+                        });
+                    } else {
+                        var user = new User(loginData);
+                        user.sessionId = auth.generateSessionId();
+                        user.avatar = '/img/150x150.png';
 
-                            user.save();
+                        user.save(function(){
                             res.json({
                                 success: true,
                                 sessionId: user.sessionId
@@ -74,10 +101,10 @@ var auth = {
             }
         });
 
-        User.find({
+        User.findOne({
             sessionId: sessionId
-        }, function (err, users) {
-            callback(users.length ? users.pop() : null);
+        }, function (err, user) {
+            callback(user);
         });
     },
     generateSessionId: function () {

@@ -1,5 +1,5 @@
 {{#results}}
-<div class="dialog search-result" data-value="{{id}}">
+<div class="dialog search-result" data-value="{{_id}}">
 	<img src="{{avatar}}" alt="Charts">
 	<span>{{name}}</span>
 	<span class="badge">6</span>

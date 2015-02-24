@@ -31,7 +31,7 @@ var MainController = Controller.extend({
         });
 
         app.socket.on('message', function (message) {
-            if (self.dialog && self.dialog.room.id == message.roomId) {
+            if (self.dialog && self.dialog.room._id == message.roomId) {
                 self.dialog.addMessage(message);
             } else {
 
@@ -42,9 +42,12 @@ var MainController = Controller.extend({
             self.listView.searchResult(results);
         });
     },
-    select: function (roomId) {
-        app.socket.emit('room info', {roomId: roomId});
+    selectDialog: function (roomId) {
+        app.socket.emit('room info', roomId);
         $('.dialogContainer').css('left', '0');
+    },
+    createDialog: function(userId){
+        app.socket.emit('room create', userId);
     },
     search: function (search) {
         var rooms = [];
@@ -57,7 +60,7 @@ var MainController = Controller.extend({
         this.listView.update(rooms);
 
         if (!rooms.length) {
-            app.socket.emit('search', {query: search});
+            app.socket.emit('search', search);
         }
     },
     closeDialog: function () {

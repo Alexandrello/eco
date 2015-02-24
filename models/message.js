@@ -1,11 +1,10 @@
 var mongoose = require('mongoose');
 
 var MessageSchema = mongoose.Schema({
-    id: Number,
-    userId: Number,
+    userId: mongoose.Schema.ObjectId,
     userName: String,
     userAvatar: String,
-    roomId: Number,
+    roomId: mongoose.Schema.ObjectId,
     timestamp: Number,
     text: String
 }, {

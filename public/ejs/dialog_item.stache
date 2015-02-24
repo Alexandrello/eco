@@ -1,5 +1,5 @@
 {{#rooms}}
-<div class="dialog room" data-value="{{ id }}">
+<div class="dialog room" data-value="{{_id}}">
     <img src="/img/group-chat.png" alt="Charts">
     <span>{{ name }}</span>
     <span class="badge">6</span>

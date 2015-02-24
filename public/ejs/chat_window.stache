@@ -1,4 +1,4 @@
-<div class="chatbox" data-value="{{room.id}}">
+<div class="chatbox" data-value="{{room._id}}">
     <div class="chatbox-heading">
 		<span>
 			<img src="/img/group-chat.png"></i>

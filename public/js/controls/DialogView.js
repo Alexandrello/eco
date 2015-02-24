@@ -27,7 +27,7 @@ var DialogView = can.Control({
         }
     },
     addMessage: function (message) {
-        var template = this.app.user.id == message.userId ? 'im_out' : 'im_income';
+        var template = this.app.user._id == message.userId ? 'im_out' : 'im_income';
         this.messageList.append(can.view('/ejs/' + template, message));
 
         var scrollTo = this.messageList.prop('scrollHeight') + 'px';
@@ -39,7 +39,7 @@ var DialogView = can.Control({
     },
     '.chatInput keypress': function (el, ev) {
         if (ev.keyCode == 13) {
-            this.app.mainController.sendMessage(this.room.id, el.val());
+            this.app.mainController.sendMessage(this.room._id, el.val());
             el.val('');
             return false;
         }
