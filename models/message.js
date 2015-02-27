@@ -1,10 +1,8 @@
 var mongoose = require('mongoose');
 
 var MessageSchema = mongoose.Schema({
-    userId: mongoose.Schema.ObjectId,
-    userName: String,
-    userAvatar: String,
-    roomId: mongoose.Schema.ObjectId,
+    userId: {type: mongoose.Schema.ObjectId, ref: 'User'},
+    roomId: {type: mongoose.Schema.ObjectId, ref: 'Room'},
     timestamp: Number,
     text: String
 }, {

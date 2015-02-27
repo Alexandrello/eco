@@ -22,9 +22,9 @@ module.exports = function (app, socket) {
                     var room = rooms[r];
                     socket.join('room ' + room._id);
 
-                    if (room.users.length == 2){
-                        for(var u = 0; u < room.users.length; u++){
-                            if (!room.users[u]._id.equals(auth._id)){
+                    if (room.users.length == 2) {
+                        for (var u = 0; u < room.users.length; u++) {
+                            if (!room.users[u]._id.equals(auth._id)) {
                                 room.name = room.users[u].name;
                             }
                         }
@@ -39,11 +39,10 @@ module.exports = function (app, socket) {
                 if (!room) {
                     return;
                 }
-                socket.join('room ' + room._id);
 
-                if (room.users.length == 2){
-                    for(var u = 0; u < room.users.length; u++){
-                        if (!room.users[u]._id.equals(auth._id)){
+                if (room.users.length == 2) {
+                    for (var u = 0; u < room.users.length; u++) {
+                        if (!room.users[u]._id.equals(auth._id)) {
                             room.name = room.users[u].name;
                         }
                     }
@@ -51,8 +50,20 @@ module.exports = function (app, socket) {
 
                 room = room.toObject();
 
-                Message.find({roomId: room._id}, {}, {sort: {timestamp: 1}, limit: 10}, function (err, messages) {
-                    room.messages = messages;
+                Message.find({roomId: room._id}, {}, {
+                    sort: {timestamp: 1},
+                    limit: 10
+                }).populate('userId').exec(function (err, messages) {
+                    room.messages = [];
+                    for (var m = 0; m < messages.length; m++) {
+                        room.messages.push({
+                            timestamp: messages[m].timestamp,
+                            text: messages[m].text,
+                            userId: messages[m].userId._id,
+                            userName: messages[m].userId.name,
+                            userAvatar: messages[m].userId.avatar
+                        });
+                    }
                     socket.emit('room info', room);
                 });
             });
@@ -94,11 +105,13 @@ module.exports = function (app, socket) {
 
             var message = new Message(msg);
             message.userId = auth._id;
-            message.userName = auth.name || auth.email;
-            message.userAvatar = auth.avatar || '/img/150x150.png';
             message.timestamp = new Date().getTime();
 
             message.save();
+
+            message = message.toObject();
+            message.userName = auth.name || auth.email;
+            message.userAvatar = auth.avatar || '/img/150x150.png';
 
             socket.emit('message', message);
             socket.broadcast.to('room ' + message.roomId).emit('message', message);
