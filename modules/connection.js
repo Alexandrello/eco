@@ -2,21 +2,18 @@ var User = require('../models/user');
 var Room = require('../models/room');
 var Message = require('../models/message');
 
-function humanTimeStamp(timestamp){
-    var date = new Date(timestamp * 1000);
+function timeStamp(timestamp) {
+    var now = new Date(timestamp);
 
-    return date.getDate() + '.' + (date.getMonth()+1) + '.' + date.getFullYear();
+    var date = [now.getMonth() + 1, now.getDate(), now.getFullYear()];
+    var time = [now.getHours(), now.getMinutes(), now.getSeconds()];
 
-
-
-        var datevalues = [
-            date.getFullYear(),
-            date.getMonth()+1,
-            date.getDate(),
-            date.getHours(),
-            date.getMinutes(),
-            date.getSeconds(),
-        ];
+    for (var i = 1; i < 3; i++) {
+        if (time[i] < 10) {
+            time[i] = "0" + time[i];
+        }
+    }
+    return date.join(".") + " " + time.join(":");
 }
 
 module.exports = function (app, socket) {
@@ -74,7 +71,7 @@ module.exports = function (app, socket) {
                     room.messages = [];
                     for (var m = 0; m < messages.length; m++) {
                         room.messages.push({
-                            timestamp: humanTimeStamp(messages[m].timestamp),
+                            timestamp: timeStamp(messages[m].timestamp),
                             text: messages[m].text,
                             userId: messages[m].userId._id,
                             userName: messages[m].userId.name,
@@ -129,6 +126,7 @@ module.exports = function (app, socket) {
             message = message.toObject();
             message.userName = auth.name || auth.email;
             message.userAvatar = auth.avatar || '/img/150x150.png';
+            message.timestamp = timeStamp(message.timestamp);
 
             socket.emit('message', message);
             socket.broadcast.to('room ' + message.roomId).emit('message', message);
