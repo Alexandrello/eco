@@ -1,17 +1,22 @@
 extends layout
 block content
-    form.form-signin(method="post")
-        img(src="/img/green.png" style="margin-bottom: 20px;")
-        h1 Регистрация
-        div.alert.alert-error.fade.in.hide
-        input.input-block-level(name="name" type="text" placeholder="Имя")
-        input.input-block-level(name="email" type="text" placeholder="Email")
-        input.input-block-level(name="password" type="password" placeholder="Пароль")
-        button.btn.btn-large.btn-primary(type="submit") Регистрация
-        a.btn.btn-large.pull-right(href="/") Назад
+    div.bar.bar-header.bar-dark
+        a.button.button-positive(href="/") Назад
+        h1.title Регистрация
+    form.content.has-header.padding.form-signup(method="post")
+        img.logo(src="/img/green.png" style="margin-bottom: 20px;")
+        div.list
+            label.item.assertive.item-divider.hide.alert-error
+            label.item.item-input
+                input(name="name" type="text" placeholder="Имя")
+            label.item.item-input
+                input(name="email" type="text" placeholder="Email")
+            label.item.item-input
+                input(name="password" type="password" placeholder="Пароль")
+            button.button.button-block.button-positive.activated(type="submit") Регистрация
     script.
         $(function () {
-            $('.form-signin').submit(function () {
+            $('.form-signup').submit(function () {
                 $('.alert-error').hide();
                 var data = {};
                 $(this).find('input').each(function (i, input) {

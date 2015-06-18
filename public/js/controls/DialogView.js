@@ -9,7 +9,8 @@ var DialogView = can.Control({
         this.element.html(can.view(this.options.view, {
             room: options.room
         }));
-        this.messageList = $(this.element).find('.chat-messages-list');
+        this.messageList = this.element.find('.content .list');
+        this.messageInput = this.element.find('.chatInput');
 
         this.messageList.slimScroll({
             start: "bottom",
@@ -18,6 +19,8 @@ var DialogView = can.Control({
         }).bind('slimscroll', function (e, pos) {
             // load oldest
         });
+
+        this.element.removeClass('hide');
 
         this.update(options.room.messages);
     },
@@ -33,9 +36,13 @@ var DialogView = can.Control({
         var scrollTo = this.messageList.prop('scrollHeight') + 'px';
         this.messageList.slimScroll({scrollTo: scrollTo});
     },
-    '.close click': function (el, ev) {
+    close: function(){
+        this.element.addClass('hide');
         this.app.mainController.closeDialog();
         this.element.html('');
+    },
+    '.close click': function (el, ev) {
+        this.close();
     },
     '.chatInput keypress': function (el, ev) {
         if (ev.keyCode == 13) {
@@ -43,5 +50,9 @@ var DialogView = can.Control({
             el.val('');
             return false;
         }
+    },
+    '.send-message click': function(el, ev){
+        this.app.mainController.sendMessage(this.room._id, this.messageInput.val());
+        this.messageInput.val('');
     }
 });

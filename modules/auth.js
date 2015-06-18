@@ -1,5 +1,5 @@
 var User = require('../models/user');
-var SHA256 = require("crypto-js/sha256");
+var crypto = require('crypto');
 
 var auth = {
     init: function (app) {
@@ -19,10 +19,14 @@ var auth = {
                     error: 'Введите логин и пароль'
                 });
             } else {
-                loginData.password = SHA256(loginData.password);
+                loginData.password = crypto.createHash('sha256').update(loginData.password).digest('base64');
+
                 User.findOne({
                     email: loginData.email
                 }, function (err, user) {
+
+                    console.log(user, loginData);
+
                     if (user) {
                         if (user.password == loginData.password) {
                             user.sessionId = auth.generateSessionId();
@@ -55,7 +59,7 @@ var auth = {
                     error: 'Заполните все поля'
                 });
             } else {
-                loginData.password = SHA256(loginData.password);
+                loginData.password = crypto.createHash('sha256').update(loginData.password).digest('base64');
                 User.findOne({
                     email: loginData.email
                 }, function (err, user) {

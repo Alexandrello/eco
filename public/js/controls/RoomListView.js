@@ -20,9 +20,9 @@ var RoomListView = can.Control({
         }));
     },
     '.room click': function (el, ev) {
-        this.app.mainController.selectDialog(el.attr('data-value'));
+        this.app.socket.emit('room info', el.attr('data-value'));
     },
     '.search-result click': function (el, ev) {
-        this.app.mainController.createDialog(el.attr('data-value'));
+        this.app.socket.emit('room create', el.attr('data-value'));
     }
 });

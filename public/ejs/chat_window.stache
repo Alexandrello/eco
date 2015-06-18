@@ -1,19 +1,16 @@
-<div class="chatbox" data-value="{{room._id}}">
-    <div class="chatbox-heading">
-		<span>
-			<img src="/img/group-chat.png"></i>
-            &nbsp;{{room.name}}
-		</span>
-        <button class="close">×</button>
-    </div>
-    <div class="chatbox-body chat">
-        <div class="message_block">
-            <div class="chat-messages-list">
-            </div>
-        </div>
-    </div>
-    <div class="chatbox-footer">
-        <textarea class="chatInput"></textarea>
+<div class="bar bar-header bar-dark">
+    <button class="button button-positive close">Назад</button>
+    <h1 class="title"><i class="icon ion-person"></i>&nbsp;{{room.name}}</h1>
+</div>
+<div class="content has-header">
+    <div class="list"></div>
+</div>
+<div class="bar bar-footer item-input-inset">
+    <label class="item-input-wrapper">
+        <input type="text" class="chatInput">
         <input type="file" class="uploader" style="display: none;" name="file">
-    </div>
+    </label>
+    <button class="button button-clear send-message">
+        Отправить
+    </button>
 </div>

@@ -1,7 +1,7 @@
 {{#rooms}}
-<div class="dialog room" data-value="{{_id}}">
-    <img src="/img/group-chat.png" alt="Charts">
-    <span>{{ name }}</span>
-    <span class="badge">6</span>
-</div>
+<a class="item item-icon-left dialog room" data-value="{{_id}}">
+    <i class="icon ion-person"></i>
+    {{ name }}
+    <span class="badge badge-assertive">0</span>
+</a>
 {{/rooms}}

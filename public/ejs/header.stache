@@ -1,0 +1,9 @@
+<label class="item-input-wrapper hide" id="search-wrapper">
+    <i class="icon ion-ios-search placeholder-icon"></i>
+    <input id="search" type="search" placeholder="Поиск...">
+</label>
+<button class="button button-clear hide search-toggle">
+    Отмена
+</button>
+<h1 class="title">Контакты</h1>
+<a class="button button-positive search-toggle">Поиск</a>

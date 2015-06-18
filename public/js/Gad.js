@@ -14,6 +14,10 @@ var Gad = Controller.extend({
                 app.mainController = new MainController(app);
                 app.loader.hide();
             });
+        }).on('disconnect', function(){
+            if (app.mainController){
+                app.mainController.disconnect();
+            }
         });
     }
 });

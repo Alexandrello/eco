@@ -2,7 +2,7 @@ var MainController = Controller.extend({
     dependencies: [
         'controls.RoomListView',
         'controls.DialogView',
-        'controls.SearchView'
+        'controls.HeaderView'
     ],
     init: function (app) {
         this.app = app;
@@ -10,9 +10,14 @@ var MainController = Controller.extend({
 
         this.initDependencies(function () {
             self.listView = new RoomListView('.dialogBlock', {app: app});
-            self.searchView = new SearchView('.search-block', {app: app});
+            self.header = new HeaderView('.bar-header', {app: app});
             self.initActions(app);
         });
+    },
+    disconnect: function(){
+        if (this.dialog){
+            this.dialog.close();
+        }
     },
     initActions: function (app) {
         var self = this;
@@ -42,13 +47,6 @@ var MainController = Controller.extend({
             self.listView.searchResult(results);
         });
     },
-    selectDialog: function (roomId) {
-        app.socket.emit('room info', roomId);
-        $('.dialogContainer').css('left', '0');
-    },
-    createDialog: function(userId){
-        app.socket.emit('room create', userId);
-    },
     search: function (search) {
         var rooms = [];
         for (var r in this.rooms) {
@@ -65,7 +63,6 @@ var MainController = Controller.extend({
     },
     closeDialog: function () {
         this.dialog = null;
-        $('.dialogContainer').css('left', '200px');
     },
     sendMessage: function (roomId, text) {
         app.socket.emit('message', {

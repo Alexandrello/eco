@@ -2,6 +2,23 @@ var User = require('../models/user');
 var Room = require('../models/room');
 var Message = require('../models/message');
 
+function humanTimeStamp(timestamp){
+    var date = new Date(timestamp * 1000);
+
+    return date.getDate() + '.' + (date.getMonth()+1) + '.' + date.getFullYear();
+
+
+
+        var datevalues = [
+            date.getFullYear(),
+            date.getMonth()+1,
+            date.getDate(),
+            date.getHours(),
+            date.getMinutes(),
+            date.getSeconds(),
+        ];
+}
+
 module.exports = function (app, socket) {
     var connection = this;
     app.auth.getAuth(socket.handshake, function (auth) {
@@ -57,7 +74,7 @@ module.exports = function (app, socket) {
                     room.messages = [];
                     for (var m = 0; m < messages.length; m++) {
                         room.messages.push({
-                            timestamp: messages[m].timestamp,
+                            timestamp: humanTimeStamp(messages[m].timestamp),
                             text: messages[m].text,
                             userId: messages[m].userId._id,
                             userName: messages[m].userId.name,
