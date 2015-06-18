@@ -1,7 +1,7 @@
 {{#results}}
-<div class="dialog search-result" data-value="{{_id}}">
-	<img src="{{avatar}}" alt="Charts">
-	<span>{{name}}</span>
-	<span class="badge">6</span>
-</div>
+<a class="item item-icon-left dialog search-result" data-value="{{_id}}">
+    <i class="icon ion-person"></i>
+    {{name}}
+    <span class="badge badge-assertive">0</span>
+</a>
 {{/results}}

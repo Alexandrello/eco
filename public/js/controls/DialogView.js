@@ -40,6 +40,7 @@ var DialogView = can.Control({
         this.element.addClass('hide');
         this.app.mainController.closeDialog();
         this.element.html('');
+        this.destroy();
     },
     '.close click': function (el, ev) {
         this.close();

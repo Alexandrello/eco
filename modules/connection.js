@@ -86,7 +86,7 @@ module.exports = function (app, socket) {
         connection.roomCreate = function (userId) {
             Room.findOne({
                 users: {
-                    $in: [userId, auth._id],
+                    $all: [userId, auth._id],
                     $size: 2
                 }
             }, function (err, room) {

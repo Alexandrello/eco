@@ -5,9 +5,8 @@ var HeaderView = can.Control({
 }, {
     init: function (el, options) {
         this.app = options.app;
-        this.element.html(can.view(this.options.view, {
-            rooms: options.rooms
-        }));
+        this.element.html(can.view(this.options.view, {}));
+        this.element.find('#search');
     },
     toggleSearch: function(){
         this.element.find('h1.title').toggleClass('hide');
