@@ -1,6 +1,7 @@
 <div class="bar bar-header bar-dark">
     <button class="button button-positive close">Назад</button>
     <h1 class="title"><i class="icon ion-person"></i>&nbsp;{{room.name}}</h1>
+    <button class="button button-positive invite">Пригласить</button>
 </div>
 <div class="content has-header">
     <div class="list"></div>

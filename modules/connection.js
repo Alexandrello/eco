@@ -16,6 +16,15 @@ function timeStamp(timestamp) {
     return date.join(".") + " " + time.join(":");
 }
 
+function userVars(user) {
+    return {
+        _id: user._id,
+        avatar: user.avatar,
+        email: user.email,
+        name: user.name
+    };
+}
+
 module.exports = function (app, socket) {
     var connection = this;
     app.auth.getAuth(socket.handshake, function (auth) {
@@ -36,12 +45,12 @@ module.exports = function (app, socket) {
                     var room = rooms[r];
                     socket.join('room ' + room._id);
 
-                    if (room.users.length == 2) {
-                        for (var u = 0; u < room.users.length; u++) {
-                            if (!room.users[u]._id.equals(auth._id)) {
-                                room.name = room.users[u].name;
-                            }
+                    for (var u = 0; u < room.users.length; u++) {
+                        if (!room.users[u]._id.equals(auth._id) && room.users.length == 2) {
+                            room.name = room.users[u].name;
                         }
+
+                        room.users[u] = userVars(room.users[u]);
                     }
                 }
                 socket.emit('room list', rooms);
@@ -54,12 +63,12 @@ module.exports = function (app, socket) {
                     return;
                 }
 
-                if (room.users.length == 2) {
-                    for (var u = 0; u < room.users.length; u++) {
-                        if (!room.users[u]._id.equals(auth._id)) {
-                            room.name = room.users[u].name;
-                        }
+                for (var u = 0; u < room.users.length; u++) {
+                    if (!room.users[u]._id.equals(auth._id) && room.users.length == 2) {
+                        room.name = room.users[u].name;
                     }
+
+                    room.users[u] = userVars(room.users[u]);
                 }
 
                 room = room.toObject();

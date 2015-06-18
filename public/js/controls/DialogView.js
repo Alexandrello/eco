@@ -36,14 +36,38 @@ var DialogView = can.Control({
         var scrollTo = this.messageList.prop('scrollHeight') + 'px';
         this.messageList.slimScroll({scrollTo: scrollTo});
     },
-    close: function(){
+    getUserList: function () {
+        var userIds = [];
+
+        for(var u in this.room.users){
+            if (this.room.users[u]._id != this.app.user._id){
+                userIds.push(this.room.users[u]._id);
+            }
+        }
+        return userIds;
+    },
+    close: function () {
         this.element.addClass('hide');
         this.app.mainController.closeDialog();
         this.element.html('');
         this.destroy();
     },
+    hide: function () {
+        this.element.addClass('hide');
+    },
+    show: function () {
+        this.element.removeClass('hide');
+    },
     '.close click': function (el, ev) {
         this.close();
+    },
+    '.invite click': function (el, ev) {
+        var self = this;
+        this.app.mainController.listView.hideUsers(this.getUserList());
+        this.app.mainController.listView.selectAction = function () {
+            self.show();
+        }
+        self.hide();
     },
     '.chatInput keypress': function (el, ev) {
         if (ev.keyCode == 13) {
@@ -52,7 +76,7 @@ var DialogView = can.Control({
             return false;
         }
     },
-    '.send-message click': function(el, ev){
+    '.send-message click': function (el, ev) {
         this.app.mainController.sendMessage(this.room._id, this.messageInput.val());
         this.messageInput.val('');
     }

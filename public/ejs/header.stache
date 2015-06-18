@@ -2,8 +2,6 @@
     <i class="icon ion-ios-search placeholder-icon"></i>
     <input id="search" type="search" placeholder="Поиск...">
 </label>
-<button class="button button-clear hide search-toggle">
-    Отмена
-</button>
+<button class="button button-clear icon ion-close hide search-toggle"></button>
 <h1 class="title">Контакты</h1>
-<a class="button button-positive search-toggle">Поиск</a>
+<a class="button button-clear icon ion-search search-toggle"></a>
