@@ -2,7 +2,6 @@ extends layout
 block content
     div.bar.bar-header.bar-dark
         h1.title Авторизация
-        a.button.button-positive(href="/register/") Регистрация
     form.content.has-header.padding.form-signin(method="post")
         img.logo(src="/img/green.png" style="margin-bottom: 20px;")
         div.list
@@ -12,6 +11,7 @@ block content
             label.item.item-input
                 input.input-block-level(name="password" type="password" placeholder="Пароль")
             button.button.button-block.button-positive.activated(type="submit") Вход
+            a.button.button-block.button-stable(href="/register/") Регистрация
     script.
         $(function () {
             $('.form-signin').submit(function () {
