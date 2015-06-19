@@ -29,6 +29,9 @@ var MainController = Controller.extend({
         });
 
         app.socket.on('room info', function (room) {
+            if (self.dialog){
+                self.dialog.close();
+            }
             self.dialog = new DialogView('.dialogContainer', {
                 app: self.app,
                 room: room
@@ -63,11 +66,5 @@ var MainController = Controller.extend({
     },
     closeDialog: function () {
         this.dialog = null;
-    },
-    sendMessage: function (roomId, text) {
-        app.socket.emit('message', {
-            roomId: roomId,
-            text: text
-        });
     }
 });

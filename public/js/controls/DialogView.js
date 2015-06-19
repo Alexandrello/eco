@@ -39,8 +39,8 @@ var DialogView = can.Control({
     getUserList: function () {
         var userIds = [];
 
-        for(var u in this.room.users){
-            if (this.room.users[u]._id != this.app.user._id){
+        for (var u in this.room.users) {
+            if (this.room.users[u]._id != this.app.user._id) {
                 userIds.push(this.room.users[u]._id);
             }
         }
@@ -63,21 +63,29 @@ var DialogView = can.Control({
     },
     '.invite click': function (el, ev) {
         var self = this;
+        this.app.mainController.header.hideSearch();
         this.app.mainController.listView.hideUsers(this.getUserList());
-        this.app.mainController.listView.selectAction = function () {
+        this.app.mainController.listView.hideConferences();
+        this.app.mainController.header.showCancel();
+        this.app.mainController.listView.selectAction = function (userId) {
+            self.app.mainController.header.showSearch();
+            self.app.socket.emit('room invite', {roomId: self.room._id, userId: userId});
+        }
+        this.app.mainController.listView.cancelAction = function(){
+            self.app.mainController.header.showSearch();
             self.show();
         }
         self.hide();
     },
     '.chatInput keypress': function (el, ev) {
         if (ev.keyCode == 13) {
-            this.app.mainController.sendMessage(this.room._id, el.val());
+            this.app.socket.emit('message', {roomId: this.room._id, text: el.val()});
             el.val('');
             return false;
         }
     },
     '.send-message click': function (el, ev) {
-        this.app.mainController.sendMessage(this.room._id, this.messageInput.val());
+        this.app.socket.emit('message', {roomId: this.room._id, text: this.messageInput.val()});
         this.messageInput.val('');
     }
 });

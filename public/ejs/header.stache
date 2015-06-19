@@ -5,3 +5,4 @@
 <button class="button button-clear icon ion-close hide search-toggle"></button>
 <h1 class="title">Контакты</h1>
 <a class="button button-clear icon ion-search search-toggle"></a>
+<button class="button button-positive cancel hide">Отмена</button>

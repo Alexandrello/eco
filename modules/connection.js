@@ -102,23 +102,33 @@ module.exports = function (app, socket) {
                 if (room) {
                     return;
                 }
-                var room = new Room({
-                    name: 'Conf',
-                    users: [userId, auth._id]
-                });
+                var room = new Room({name: 'Conf', users: [userId, auth._id]});
                 room.save(function () {
                     socket.join('room ' + room._id);
-                    socket.emit('room info', room);
+                    connection.roomInfo(room._id);
 
                     for (var c in app.connections) {
-                        if (app.connections[c].auth._id.equals(userId)) {
+                        if (app.connections[c].auth._id.equals(userId) || app.connections[c].auth._id.equals(auth._id)) {
                             app.connections[c].roomList();
-                            //app.connections[c].roomInfo(room._id.toString());
                         }
                     }
                 });
             });
         };
+
+        connection.roomInvite = function (invite) {
+            Room.findById(invite.roomId).exec(function (err, room) {
+                if (!room || room.users.indexOf(invite.userId) >= 0) {
+                    return;
+                }
+
+                room.users.push(invite.userId);
+                room.save(function () {
+                    connection.roomInfo(invite.roomId);
+                    connection.roomList();
+                });
+            });
+        }
 
         connection.sendMessage = function (msg) {
             msg.text = msg.text.trim();
@@ -162,6 +172,7 @@ module.exports = function (app, socket) {
         socket.on('room list', connection.roomList);
         socket.on('room info', connection.roomInfo);
         socket.on('room create', connection.roomCreate);
+        socket.on('room invite', connection.roomInvite);
         socket.on('message', connection.sendMessage);
         socket.on('search', connection.searchUsers);
     });
