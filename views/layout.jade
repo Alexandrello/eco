@@ -6,6 +6,7 @@ html
         link(rel='stylesheet', href='/css/main.css')
         script(src='/js/vendor/jquery.js')
         script(src='/js/vendor/jquery-ui.min.js')
+        script(src='/js/vendor/jquery.facedetection.min.js')
         script(src='/js/vendor/jquery.slimscroll.min.js')
         script(src='/lib/ionic/js/ionic.min.js')
         script(src='/js/vendor/can.custom.js')
@@ -16,3 +17,4 @@ html
         script(src='/js/Gad.js')
     body
         block content
+        input.uploader(style="display: none" name="file" type="file")

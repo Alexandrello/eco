@@ -9,7 +9,6 @@
 <div class="bar bar-footer item-input-inset">
     <label class="item-input-wrapper">
         <input type="text" class="chatInput">
-        <input type="file" class="uploader" style="display: none;" name="file">
     </label>
     <button class="button button-clear send-message">
         Отправить
